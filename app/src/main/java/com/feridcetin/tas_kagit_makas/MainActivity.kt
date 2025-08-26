@@ -7,8 +7,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.ArrayList
@@ -22,8 +24,16 @@ class MainActivity : AppCompatActivity() {
     private val oyunGecmisi = mutableListOf<TurSonucu>()
     private lateinit var gecmisAdapter: GecmisAdapter
 
-    private lateinit var textViewSonuc: TextView
     private lateinit var imageViewBilgisayar: ImageView
+    private lateinit var mainLayout: View
+    private var mevcutArkaPlanId: Int = 0
+
+    private val backgroundResimler = listOf(
+        R.drawable.bg_oyun1,
+        R.drawable.bg_oyun2,
+        R.drawable.bg_oyun3,
+        R.drawable.bg_oyun4
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,26 +45,29 @@ class MainActivity : AppCompatActivity() {
         val buttonSifirla: Button = findViewById(R.id.buttonSifirla)
         val recyclerViewGecmis: RecyclerView = findViewById(R.id.recyclerViewGecmis)
 
-        textViewSonuc = findViewById(R.id.textViewSonuc)
         imageViewBilgisayar = findViewById(R.id.imageViewBilgisayar)
+        mainLayout = findViewById(R.id.mainLayout)
 
         gecmisAdapter = GecmisAdapter(oyunGecmisi)
         recyclerViewGecmis.layoutManager = LinearLayoutManager(this)
         recyclerViewGecmis.adapter = gecmisAdapter
 
-        // Ekran yeniden oluşturulduğunda durumu geri yükle
         if (savedInstanceState != null) {
             oyuncuSkoru = savedInstanceState.getInt("oyuncu_skor")
             bilgisayarSkoru = savedInstanceState.getInt("bilgisayar_skor")
-            berabereSkoru = savedInstanceState.getInt("berabere_skor")
+            berabereSkoru = savedInstanceState.getInt("berabere_skoru")
             val gecmisListesi = savedInstanceState.getSerializable("oyun_gecmisi") as ArrayList<TurSonucu>?
             gecmisListesi?.let {
                 oyunGecmisi.addAll(it)
                 gecmisAdapter.notifyDataSetChanged()
             }
             guncelleSkor()
+
+            // Kaydedilmiş arka plan ID'sini geri yükle
+            mevcutArkaPlanId = savedInstanceState.getInt("arka_plan_id")
+            mainLayout.setBackgroundResource(mevcutArkaPlanId)
         } else {
-            // İlk kez açılıyorsa sıfırla
+            // Uygulama ilk kez açıldığında sıfırla ve yeni arka plan ata
             sifirla()
         }
 
@@ -64,19 +77,18 @@ class MainActivity : AppCompatActivity() {
         buttonSifirla.setOnClickListener { sifirla() }
     }
 
-    // Ekran yönü değiştiğinde uygulama durumunu kaydet
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("oyuncu_skor", oyuncuSkoru)
         outState.putInt("bilgisayar_skor", bilgisayarSkoru)
-        outState.putInt("berabere_skor", berabereSkoru)
+        outState.putInt("berabere_skoru", berabereSkoru)
         outState.putSerializable("oyun_gecmisi", ArrayList(oyunGecmisi))
+        // Mevcut arka plan ID'sini kaydet
+        outState.putInt("arka_plan_id", mevcutArkaPlanId)
     }
 
     private fun oyna(oyuncuSecimi: String) {
         butonlariDevreDisiBirak(true)
-
-        textViewSonuc.visibility = View.VISIBLE
 
         val secenekler = listOf("Taş", "Kağıt", "Makas")
         val bilgisayarSecimi = secenekler.random()
@@ -117,21 +129,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         when (sonuc) {
-            "Kazandın" -> {
-                textViewSonuc.text = "Kazandın! Siz $oyuncuSecimi seçtiniz."
-                textViewSonuc.setTextColor(Color.GREEN)
-            }
-            "Kaybettin" -> {
-                textViewSonuc.text = "Kaybettin! Siz $oyuncuSecimi seçtiniz."
-                textViewSonuc.setTextColor(Color.RED)
-            }
-            else -> {
-                textViewSonuc.text = "Berabere! İkiniz de $oyuncuSecimi seçtiniz."
-                textViewSonuc.setTextColor(Color.GRAY)
-            }
-        }
-
-        when (sonuc) {
             "Kazandın" -> oyuncuSkoru++
             "Kaybettin" -> bilgisayarSkoru++
             else -> berabereSkoru++
@@ -148,11 +145,10 @@ class MainActivity : AppCompatActivity() {
         berabereSkoru = 0
         oyunGecmisi.clear()
         gecmisAdapter.notifyDataSetChanged()
+        rastgeleArkaPlanAyarla()
 
         guncelleSkor()
-        textViewSonuc.text = "Seçiminizi yapın!"
         imageViewBilgisayar.setImageDrawable(null)
-        textViewSonuc.visibility = View.GONE
     }
 
     private fun guncelleSkor() {
@@ -167,6 +163,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.imageButtonTas).isEnabled = !devreDisi
         findViewById<ImageButton>(R.id.imageButtonKagit).isEnabled = !devreDisi
         findViewById<ImageButton>(R.id.imageButtonMakas).isEnabled = !devreDisi
+    }
+
+    private fun rastgeleArkaPlanAyarla() {
+        val randomBackground = backgroundResimler.random()
+        mevcutArkaPlanId = randomBackground
+        mainLayout.setBackgroundResource(mevcutArkaPlanId)
     }
 }
 
