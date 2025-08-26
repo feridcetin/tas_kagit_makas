@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:padding="16dp"
     tools:context=".MainActivity">
 
@@ -24,27 +24,57 @@
             android:gravity="center"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/textViewOyuncuSkor"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Oyuncu: 0"
-                android:textSize="20sp"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/iconOyuncu"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_oyuncu"
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/textViewOyuncuSkor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textViewBilgisayarSkor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/darker_gray"/>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Bilgisayar: 0"
-                android:textSize="20sp"
-                android:textColor="@android:color/holo_red_dark"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/iconBilgisayar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_bilgisayar"
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/textViewBilgisayarSkor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -75,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Seçiminizi yapın!"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="32dp" />
 
@@ -126,6 +156,23 @@
                 android:background="?attr/selectableItemBackground" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Oyun Geçmişi"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewGecmis"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/list_item_gecmis"/>
 
     <Button
         android:id="@+id/buttonSifirla"
