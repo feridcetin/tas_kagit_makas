@@ -1,6 +1,5 @@
 package com.feridcetin.tas_kagit_makas
 
-
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,6 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,7 +42,21 @@ class MainActivity : AppCompatActivity() {
         recyclerViewGecmis.layoutManager = LinearLayoutManager(this)
         recyclerViewGecmis.adapter = gecmisAdapter
 
-        sifirla()
+        // Ekran yeniden oluşturulduğunda durumu geri yükle
+        if (savedInstanceState != null) {
+            oyuncuSkoru = savedInstanceState.getInt("oyuncu_skor")
+            bilgisayarSkoru = savedInstanceState.getInt("bilgisayar_skor")
+            berabereSkoru = savedInstanceState.getInt("berabere_skor")
+            val gecmisListesi = savedInstanceState.getSerializable("oyun_gecmisi") as ArrayList<TurSonucu>?
+            gecmisListesi?.let {
+                oyunGecmisi.addAll(it)
+                gecmisAdapter.notifyDataSetChanged()
+            }
+            guncelleSkor()
+        } else {
+            // İlk kez açılıyorsa sıfırla
+            sifirla()
+        }
 
         buttonTas.setOnClickListener { oyna("Taş") }
         buttonKagit.setOnClickListener { oyna("Kağıt") }
@@ -50,11 +64,18 @@ class MainActivity : AppCompatActivity() {
         buttonSifirla.setOnClickListener { sifirla() }
     }
 
+    // Ekran yönü değiştiğinde uygulama durumunu kaydet
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("oyuncu_skor", oyuncuSkoru)
+        outState.putInt("bilgisayar_skor", bilgisayarSkoru)
+        outState.putInt("berabere_skor", berabereSkoru)
+        outState.putSerializable("oyun_gecmisi", ArrayList(oyunGecmisi))
+    }
+
     private fun oyna(oyuncuSecimi: String) {
         butonlariDevreDisiBirak(true)
 
-
-        // Sonuç metnini görünür yap
         textViewSonuc.visibility = View.VISIBLE
 
         val secenekler = listOf("Taş", "Kağıt", "Makas")
@@ -116,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             else -> berabereSkoru++
         }
 
-        // Değişiklik burada! Yeni öğeyi listenin en başına ekliyoruz.
         oyunGecmisi.add(0, TurSonucu(oyuncuSecimi, bilgisayarSecimi, sonuc))
         gecmisAdapter.notifyDataSetChanged()
         guncelleSkor()
@@ -132,8 +152,6 @@ class MainActivity : AppCompatActivity() {
         guncelleSkor()
         textViewSonuc.text = "Seçiminizi yapın!"
         imageViewBilgisayar.setImageDrawable(null)
-
-        // Sonuç metnini gizle
         textViewSonuc.visibility = View.GONE
     }
 
@@ -156,4 +174,4 @@ data class TurSonucu(
     val oyuncuSecimi: String,
     val bilgisayarSecimi: String,
     val sonuc: String
-)
+) : java.io.Serializable
