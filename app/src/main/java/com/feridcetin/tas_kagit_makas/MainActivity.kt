@@ -2,10 +2,16 @@ package com.feridcetin.tas_kagit_makas
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.Color
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.view.WindowInsets
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -26,7 +32,6 @@ class MainActivity : AppCompatActivity() {
     private val oyunGecmisi = mutableListOf<TurSonucu>()
     private lateinit var gecmisAdapter: GecmisAdapter
 
-    // Artık tüm View değişkenleri null olabilir
     private var imageViewBilgisayar: ImageView? = null
     private var mainLayout: View? = null
     private var buttonTas: ImageButton? = null
@@ -47,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         R.drawable.bg_oyun4
     )
 
-    // Ayarlar için değişkenler
     private lateinit var sharedPreferences: SharedPreferences
     private var isSoundEnabled: Boolean = true
     private var isBackgroundLocked: Boolean = false
@@ -66,7 +70,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Bileşenlerin güvenli bir şekilde atanması
+        // Ekranın yatay konumda olup olmadığını kontrol edin
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Android 11 (API 30) ve sonrası için
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.hide(WindowInsets.Type.systemBars())
+            } else {
+                // Eski Android sürümleri için
+                @Suppress("DEPRECATION")
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+            }
+        }
+
         imageViewBilgisayar = findViewById(R.id.imageViewBilgisayar)
         mainLayout = findViewById(R.id.mainLayout)
         buttonTas = findViewById(R.id.imageButtonTas)
@@ -75,10 +91,9 @@ class MainActivity : AppCompatActivity() {
         buttonSifirla = findViewById(R.id.buttonSifirla)
         recyclerViewGecmis = findViewById(R.id.recyclerViewGecmis)
         soundButton = findViewById(R.id.buttonSes)
-        backgroundLockButton = findViewById(R.id.buttonArkaPlanKilit)
-        themeButton = findViewById(R.id.buttonTemaDegistir)
+        //backgroundLockButton = findViewById(R.id.buttonArkaPlanKilit)
+        //themeButton = findViewById(R.id.buttonTemaDegistir)
 
-        // Ayar durumlarını yükle
         isSoundEnabled = sharedPreferences.getBoolean("sesDurumu", true)
         updateSoundButtonText()
 
@@ -116,10 +131,10 @@ class MainActivity : AppCompatActivity() {
         }
         arkaPlaniAyarla()
 
-        // Bileşenler null olmadığı sürece tıklama olaylarını ayarla
-        buttonTas?.setOnClickListener { oyna("Taş") }
-        buttonKagit?.setOnClickListener { oyna("Kağıt") }
-        buttonMakas?.setOnClickListener { oyna("Makas") }
+        // Her bir butona tıklama olaylarını ayarlarken, o butonu oyna fonksiyonuna parametre olarak gönder
+        buttonTas?.setOnClickListener { oyna("Taş", buttonTas) }
+        buttonKagit?.setOnClickListener { oyna("Kağıt", buttonKagit) }
+        buttonMakas?.setOnClickListener { oyna("Makas", buttonMakas) }
 
         buttonSifirla?.setOnClickListener { sifirla() }
         soundButton?.setOnClickListener { toggleSound() }
@@ -177,8 +192,8 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("arka_plan_id", mevcutArkaPlanId)
     }
 
-    private fun oyna(oyuncuSecimi: String) {
-        butonlariDevreDisiBirak(true)
+    private fun oyna(oyuncuSecimi: String, oyuncuSecimiButton: ImageButton?) {
+        setPlayerButtonsEnabled(false, oyuncuSecimiButton) // Oyuncunun seçtiği butonu soluk bırakmadan devre dışı bırak
 
         val secenekler = listOf("Taş", "Kağıt", "Makas")
         val bilgisayarSecimi = secenekler.random()
@@ -190,7 +205,6 @@ class MainActivity : AppCompatActivity() {
             else -> R.drawable.res_tas
         }
         imageViewBilgisayar?.setImageResource(resimId)
-
         imageViewBilgisayar?.animate()
             ?.alpha(1f)
             ?.setDuration(500)
@@ -212,13 +226,9 @@ class MainActivity : AppCompatActivity() {
             }
             val mediaPlayer = MediaPlayer.create(this, sesId)
             mediaPlayer.start()
-            // Hata bu satırdaydı: 'mediaaPlayer' -> 'mediaPlayer' olarak düzeltildi.
             mediaPlayer.setOnCompletionListener {
                 it.release()
-                butonlariDevreDisiBirak(false)
             }
-        } else {
-            butonlariDevreDisiBirak(false)
         }
 
         when (sonuc) {
@@ -230,7 +240,29 @@ class MainActivity : AppCompatActivity() {
         oyunGecmisi.add(0, TurSonucu(oyuncuSecimi, bilgisayarSecimi, sonuc))
         gecmisAdapter.notifyDataSetChanged()
         guncelleSkor()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            imageViewBilgisayar?.setImageDrawable(null)
+            setPlayerButtonsEnabled(true) // Tüm butonları tekrar aktif et
+        }, 2000)
     }
+
+    private fun setPlayerButtonsEnabled(enabled: Boolean, solukGosterButton: ImageButton? = null) {
+        val buttons = listOfNotNull(buttonTas, buttonKagit, buttonMakas)
+        for (button in buttons) {
+            button.isEnabled = enabled
+            if (enabled) {
+                button.colorFilter = null
+            } else {
+                if (button != solukGosterButton) {
+                    button.setColorFilter(Color.GRAY)
+                } else {
+                    button.colorFilter = null
+                }
+            }
+        }
+    }
+
 
     private fun sifirla() {
         oyuncuSkoru = 0
@@ -248,6 +280,7 @@ class MainActivity : AppCompatActivity() {
         yeniArkaPlanSec()
         guncelleSkor()
         imageViewBilgisayar?.setImageDrawable(null)
+        setPlayerButtonsEnabled(true)
     }
 
     private fun guncelleSkor() {
@@ -255,12 +288,6 @@ class MainActivity : AppCompatActivity() {
         val textViewBilgisayarSkor: TextView? = findViewById(R.id.textViewBilgisayarSkor)
         textViewOyuncuSkor?.text = "$oyuncuSkoru"
         textViewBilgisayarSkor?.text = "$bilgisayarSkoru"
-    }
-
-    private fun butonlariDevreDisiBirak(devreDisi: Boolean) {
-        buttonTas?.isEnabled = !devreDisi
-        buttonKagit?.isEnabled = !devreDisi
-        buttonMakas?.isEnabled = !devreDisi
     }
 
     private fun yeniArkaPlanSec() {

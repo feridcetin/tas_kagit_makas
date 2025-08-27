@@ -152,40 +152,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Oyun Geçmişi"
         android:textSize="20sp"
         android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="8dp">
-
-        <Button
-            android:id="@+id/buttonSes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Sesi Kapat" />
-
-        <Button
-            android:id="@+id/buttonArkaPlanKilit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Arka Planı Kilitle"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/buttonTemaDegistir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Koyu Tema"
-            android:visibility="gone" />
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewGecmis"
@@ -196,10 +166,39 @@
         android:layout_marginBottom="16dp"
         tools:listitem="@layout/list_item_gecmis"/>
 
-    <Button
-        android:id="@+id/buttonSifirla"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sıfırla"
-        android:layout_marginTop="24dp" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/buttonSifirla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sıfırla"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_button_background"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonSes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sesi Kapat"
+            android:background="@drawable/rounded_button_background"
+            android:backgroundTint="#66BB6A"
+            android:textColor="@android:color/white"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

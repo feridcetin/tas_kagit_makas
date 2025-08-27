@@ -17,7 +17,7 @@
         android:paddingEnd="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/oyunAlaniLayout"
         app:layout_constraintHorizontal_weight="1">
 
@@ -108,7 +108,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/gecmisLayout"
         app:layout_constraintHorizontal_weight="1">
 
@@ -181,47 +181,43 @@
                     android:background="?attr/selectableItemBackground" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/buttonSifirla"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sıfırla"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_button_background"
+                android:backgroundTint="#EF5350"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonSes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sesi Kapat"
+                android:background="@drawable/rounded_button_background"
+                android:backgroundTint="#66BB6A"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
-
-        <Button
-            android:id="@+id/buttonSifirla"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sıfırla"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/buttonSes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sesi Kapat"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/buttonArkaPlanKilit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Arka Planı Kilitle"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/buttonTemaDegistir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Koyu Tema"
-            android:visibility="gone" />
-    </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
