@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="oyuncuSkorRengi_light">#0099cc</color>
+    <color name="bilgisayarSkorRengi_light">#cc0000</color>
+    <color name="arkaPlanRengi_light">#FFFFFF</color>
+    <color name="yaziRengi_light">#000000</color>
+
+    <color name="oyuncuSkorRengi_dark">#66CCFF</color>
+    <color name="bilgisayarSkorRengi_dark">#FF6666</color>
+    <color name="arkaPlanRengi_dark">#121212</color>
+    <color name="yaziRengi_dark">#FFFFFF</color>
 </resources>

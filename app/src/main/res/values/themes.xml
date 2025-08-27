@@ -1,9 +1,7 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TasKagitMakasOyunu" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TasKagitMakas" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/yaziRengi_light</item>
+        <item name="android:windowBackground">@color/arkaPlanRengi_light</item>
     </style>
-
-    <style name="Theme.TasKagitMakasOyunu" parent="Base.Theme.TasKagitMakasOyunu" />
 </resources>

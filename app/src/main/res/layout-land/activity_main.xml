@@ -17,8 +17,9 @@
         android:paddingEnd="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonSifirla"
-        app:layout_constraintEnd_toStartOf="@+id/oyunAlaniLayout">
+        app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
+        app:layout_constraintEnd_toStartOf="@+id/oyunAlaniLayout"
+        app:layout_constraintHorizontal_weight="1">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -107,8 +108,9 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonSifirla"
-        app:layout_constraintStart_toEndOf="@+id/gecmisLayout">
+        app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
+        app:layout_constraintStart_toEndOf="@+id/gecmisLayout"
+        app:layout_constraintHorizontal_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,8 +129,8 @@
 
             <ImageView
                 android:id="@+id/imageViewBilgisayar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/res_tas" />
         </LinearLayout>
 
@@ -154,8 +156,8 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonTas"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/res_tas"
                     android:scaleType="fitCenter"
                     android:background="?attr/selectableItemBackground"
@@ -163,8 +165,8 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonKagit"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/res_kagit"
                     android:scaleType="fitCenter"
                     android:background="?attr/selectableItemBackground"
@@ -172,23 +174,54 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonMakas"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/res_makas"
                     android:scaleType="fitCenter"
                     android:background="?attr/selectableItemBackground" />
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonSifirla"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Sıfırla"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" >
+
+        <Button
+            android:id="@+id/buttonSifirla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sıfırla"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/buttonSes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sesi Kapat"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/buttonArkaPlanKilit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Arka Planı Kilitle"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonTemaDegistir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Koyu Tema"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

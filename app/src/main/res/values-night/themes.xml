@@ -1,7 +1,7 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TasKagitMakasOyunu" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TasKagitMakas" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/yaziRengi_dark</item>
+        <item name="android:windowBackground">@color/arkaPlanRengi_dark</item>
     </style>
 </resources>

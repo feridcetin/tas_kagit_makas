@@ -157,6 +157,36 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/buttonSes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Sesi Kapat" />
+
+        <Button
+            android:id="@+id/buttonArkaPlanKilit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Arka Planı Kilitle"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonTemaDegistir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Koyu Tema"
+            android:visibility="gone" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewGecmis"
         android:layout_width="match_parent"
